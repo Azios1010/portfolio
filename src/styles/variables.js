@@ -14,6 +14,7 @@ const variables = css`
     --white: #e6f1ff;
     --green: #64ffda;
     --green-tint: rgba(100, 255, 218, 0.1);
+    --nav-bg: rgba(10, 25, 47, 0.85);
     --pink: #f57dff;
     --blue: #57cbff;
 
@@ -47,6 +48,22 @@ const variables = css`
     --ham-after: bottom 0.1s ease-in 0.25s, transform 0.22s cubic-bezier(0.55, 0.055, 0.675, 0.19);
     --ham-after-active: bottom 0.1s ease-out,
       transform 0.22s cubic-bezier(0.215, 0.61, 0.355, 1) 0.12s;
+  }
+
+  :root.light-mode {
+    --dark-navy: #e6f1ff;
+    --navy: #f8f9fa;
+    --light-navy: #e2e8f0;
+    --lightest-navy: #cbd5e1;
+    --navy-shadow: rgba(150, 150, 150, 0.2);
+    --dark-slate: #8892b0;
+    --slate: #495670;
+    --light-slate: #233554;
+    --lightest-slate: #0a192f;
+    --white: #020c1b;
+    --green: #0284c7;
+    --green-tint: rgba(2, 132, 199, 0.1);
+    --nav-bg: rgba(248, 249, 250, 0.85);
   }
 `;
 

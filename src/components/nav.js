@@ -17,7 +17,7 @@ const StyledHeader = styled.header`
   padding: 0px 50px;
   width: 100%;
   height: var(--nav-height);
-  background-color: rgba(10, 25, 47, 0.85);
+  background-color: var(--nav-bg);
   filter: none !important;
   pointer-events: auto !important;
   user-select: auto !important;
@@ -38,7 +38,7 @@ const StyledHeader = styled.header`
       css`
         height: var(--nav-scroll-height);
         transform: translateY(0px);
-        background-color: rgba(10, 25, 47, 0.85);
+        background-color: var(--nav-bg);
         box-shadow: 0 10px 30px -10px var(--navy-shadow);
       `};
 
@@ -150,11 +150,49 @@ const StyledLinks = styled.div`
   }
 `;
 
+const StyledThemeToggle = styled.button`
+  ${({ theme }) => theme.mixins.flexCenter};
+  padding: 10px;
+  margin-left: 15px;
+  color: var(--green);
+  font-size: var(--fz-xl);
+  background: transparent;
+  border: none;
+  transition: var(--transition);
+
+  &:hover,
+  &:focus {
+    background: var(--green-tint);
+    border-radius: var(--border-radius);
+  }
+`;
+
 const Nav = ({ isHome }) => {
   const [isMounted, setIsMounted] = useState(!isHome);
   const scrollDirection = useScrollDirection('down');
   const [scrolledToTop, setScrolledToTop] = useState(true);
   const prefersReducedMotion = usePrefersReducedMotion();
+  const [isLightMode, setIsLightMode] = useState(false);
+
+  useEffect(() => {
+    const storedTheme = window.localStorage.getItem('theme');
+    if (storedTheme === 'light') {
+      setIsLightMode(true);
+      document.documentElement.classList.add('light-mode');
+    }
+  }, []);
+
+  const toggleTheme = () => {
+    if (isLightMode) {
+      setIsLightMode(false);
+      document.documentElement.classList.remove('light-mode');
+      window.localStorage.setItem('theme', 'dark');
+    } else {
+      setIsLightMode(true);
+      document.documentElement.classList.add('light-mode');
+      window.localStorage.setItem('theme', 'light');
+    }
+  };
 
   const handleScroll = () => {
     setScrolledToTop(window.pageYOffset < 50);
@@ -211,6 +249,12 @@ const Nav = ({ isHome }) => {
     </a>
   );
 
+  const ThemeToggleButton = (
+    <StyledThemeToggle onClick={toggleTheme} aria-label="Toggle Theme">
+      {isLightMode ? '🌙' : '☀️'}
+    </StyledThemeToggle>
+  );
+
   return (
     <StyledHeader scrollDirection={scrollDirection} scrolledToTop={scrolledToTop}>
       <StyledNav>
@@ -227,7 +271,10 @@ const Nav = ({ isHome }) => {
                     </li>
                   ))}
               </ol>
-              <div>{ResumeLink}</div>
+              <div style={{ display: 'flex', alignItems: 'center' }}>
+                {ResumeLink}
+                {ThemeToggleButton}
+              </div>
             </StyledLinks>
 
             <Menu />
@@ -260,8 +307,9 @@ const Nav = ({ isHome }) => {
               <TransitionGroup component={null}>
                 {isMounted && (
                   <CSSTransition classNames={fadeDownClass} timeout={timeout}>
-                    <div style={{ transitionDelay: `${isHome ? navLinks.length * 100 : 0}ms` }}>
+                    <div style={{ transitionDelay: `${isHome ? navLinks.length * 100 : 0}ms`, display: 'flex', alignItems: 'center' }}>
                       {ResumeLink}
+                      {ThemeToggleButton}
                     </div>
                   </CSSTransition>
                 )}

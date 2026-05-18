@@ -1,9 +1,22 @@
 import React, { useState, useEffect } from 'react';
-import { Helmet } from 'react-helmet';
 import PropTypes from 'prop-types';
-import anime from 'animejs';
-import styled from 'styled-components';
+import styled, { keyframes, css } from 'styled-components';
 import { IconLoader } from '@components/icons';
+
+const draw = keyframes`
+  0% { stroke-dashoffset: 300; }
+  100% { stroke-dashoffset: 0; }
+`;
+
+const fadeIn = keyframes`
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+`;
+
+const scaleOut = keyframes`
+  0% { transform: scale(1); opacity: 1; }
+  100% { transform: scale(0.1); opacity: 0; }
+`;
 
 const StyledLoader = styled.div`
   ${({ theme }) => theme.mixins.flexCenter};
@@ -16,12 +29,24 @@ const StyledLoader = styled.div`
   height: 100%;
   background-color: var(--dark-navy);
   z-index: 99;
+  transition: opacity 0.2s ease-in-out, z-index 0.2s;
+  
+  ${props => props.isFinished && css`
+    opacity: 0;
+    z-index: -1;
+    pointer-events: none;
+  `}
 
   .logo-wrapper {
     width: max-content;
     max-width: 100px;
-    transition: var(--transition);
     opacity: ${props => (props.isMounted ? 1 : 0)};
+    transition: opacity 0.3s ease;
+    
+    ${props => props.startHide && css`
+      animation: ${scaleOut} 0.3s ease-in-out forwards;
+    `}
+
     svg {
       display: block;
       width: 100%;
@@ -29,8 +54,20 @@ const StyledLoader = styled.div`
       margin: 0 auto;
       fill: none;
       user-select: none;
-      #B {
+      
+      path {
+        stroke-dasharray: 300;
+        stroke-dashoffset: 300;
+        ${props => props.isMounted && css`
+          animation: ${draw} 1.5s cubic-bezier(0.645, 0.045, 0.355, 1) 0.3s forwards;
+        `}
+      }
+      
+      #H {
         opacity: 0;
+        ${props => props.isMounted && css`
+          animation: ${fadeIn} 0.7s cubic-bezier(0.645, 0.045, 0.355, 1) 1.8s forwards;
+        `}
       }
     }
   }
@@ -38,53 +75,30 @@ const StyledLoader = styled.div`
 
 const Loader = ({ finishLoading }) => {
   const [isMounted, setIsMounted] = useState(false);
-
-  const animate = () => {
-    const loader = anime.timeline({
-      complete: () => finishLoading(),
-    });
-
-    loader
-      .add({
-        targets: '#logo path',
-        delay: 300,
-        duration: 1500,
-        easing: 'easeInOutQuart',
-        strokeDashoffset: [anime.setDashoffset, 0],
-      })
-      .add({
-        targets: '#logo #B',
-        duration: 700,
-        easing: 'easeInOutQuart',
-        opacity: 1,
-      })
-      .add({
-        targets: '#logo',
-        delay: 500,
-        duration: 300,
-        easing: 'easeInOutQuart',
-        opacity: 0,
-        scale: 0.1,
-      })
-      .add({
-        targets: '.loader',
-        duration: 200,
-        easing: 'easeInOutQuart',
-        opacity: 0,
-        zIndex: -1,
-      });
-  };
+  const [startHide, setStartHide] = useState(false);
+  const [isFinished, setIsFinished] = useState(false);
 
   useEffect(() => {
-    const timeout = setTimeout(() => setIsMounted(true), 10);
-    animate();
-    return () => clearTimeout(timeout);
-  }, []);
+    document.body.classList.add('hidden');
+    
+    const timeoutMounted = setTimeout(() => setIsMounted(true), 10);
+    const timeoutHide = setTimeout(() => setStartHide(true), 3000);
+    const timeoutFinish = setTimeout(() => {
+      setIsFinished(true);
+      document.body.classList.remove('hidden');
+      finishLoading();
+    }, 3300);
+
+    return () => {
+      clearTimeout(timeoutMounted);
+      clearTimeout(timeoutHide);
+      clearTimeout(timeoutFinish);
+      document.body.classList.remove('hidden');
+    };
+  }, [finishLoading]);
 
   return (
-    <StyledLoader className="loader" isMounted={isMounted}>
-      <Helmet bodyAttributes={{ class: `hidden` }} />
-
+    <StyledLoader className="loader" isMounted={isMounted} startHide={startHide} isFinished={isFinished}>
       <div className="logo-wrapper">
         <IconLoader />
       </div>

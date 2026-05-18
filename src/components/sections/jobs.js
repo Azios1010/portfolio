@@ -2,10 +2,8 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useStaticQuery, graphql } from 'gatsby';
 import { CSSTransition } from 'react-transition-group';
 import styled from 'styled-components';
-import { srConfig } from '@config';
 import { KEY_CODES } from '@utils';
-import sr from '@utils/sr';
-import { usePrefersReducedMotion } from '@hooks';
+import { usePrefersReducedMotion, useIntersectionObserver } from '@hooks';
 
 const StyledJobsSection = styled.section`
   max-width: 700px;
@@ -168,8 +166,11 @@ const Jobs = () => {
   const data = useStaticQuery(graphql`
     query {
       jobs: allMarkdownRemark(
-        filter: { fileAbsolutePath: { regex: "/content/jobs/" } }
-        sort: { fields: [frontmatter___date], order: DESC }
+        filter: {
+          fileAbsolutePath: { regex: "/content/jobs/" }
+          frontmatter: { showInJobs: { ne: false } }
+        }
+        sort: { frontmatter: { date: DESC } }
       ) {
         edges {
           node {
@@ -192,16 +193,8 @@ const Jobs = () => {
   const [activeTabId, setActiveTabId] = useState(0);
   const [tabFocus, setTabFocus] = useState(null);
   const tabs = useRef([]);
-  const revealContainer = useRef(null);
+  const revealContainer = useIntersectionObserver();
   const prefersReducedMotion = usePrefersReducedMotion();
-
-  useEffect(() => {
-    if (prefersReducedMotion) {
-      return;
-    }
-
-    sr.reveal(revealContainer.current, srConfig());
-  }, []);
 
   const focusTab = () => {
     if (tabs.current[tabFocus]) {
@@ -243,7 +236,7 @@ const Jobs = () => {
   };
 
   return (
-    <StyledJobsSection id="jobs" ref={revealContainer}>
+    <StyledJobsSection id="jobs" ref={revealContainer} className="reveal-on-scroll">
       <h2 className="numbered-heading">Where I’ve Worked</h2>
 
       <div className="inner">

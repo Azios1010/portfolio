@@ -1,8 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import styled from 'styled-components';
-import { srConfig, email } from '@config';
-import sr from '@utils/sr';
-import { usePrefersReducedMotion } from '@hooks';
+import { email } from '@config';
+import { usePrefersReducedMotion, useIntersectionObserver } from '@hooks';
 
 const StyledContactSection = styled.section`
   max-width: 600px;
@@ -42,19 +41,11 @@ const StyledContactSection = styled.section`
 `;
 
 const Contact = () => {
-  const revealContainer = useRef(null);
+  const revealContainer = useIntersectionObserver();
   const prefersReducedMotion = usePrefersReducedMotion();
 
-  useEffect(() => {
-    if (prefersReducedMotion) {
-      return;
-    }
-
-    sr.reveal(revealContainer.current, srConfig());
-  }, []);
-
   return (
-    <StyledContactSection id="contact" ref={revealContainer}>
+    <StyledContactSection id="contact" ref={revealContainer} className="reveal-on-scroll">
       <h2 className="numbered-heading overline">What’s Next?</h2>
 
       <h2 className="title">Get In Touch</h2>

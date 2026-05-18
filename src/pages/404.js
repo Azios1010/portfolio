@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'gatsby';
-import { Helmet } from 'react-helmet';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { navDelay } from '@utils';
-import { Layout } from '@components';
+import { Layout, Head as SEO } from '@components';
 import { usePrefersReducedMotion } from '@hooks';
 
 const StyledMainContainer = styled.main`
@@ -50,7 +49,6 @@ const NotFoundPage = ({ location }) => {
 
   return (
     <Layout location={location}>
-      <Helmet title="Page Not Found" />
 
       {prefersReducedMotion ? (
         <>{content}</>
@@ -66,6 +64,8 @@ const NotFoundPage = ({ location }) => {
     </Layout>
   );
 };
+
+export const Head = () => <SEO title="Page Not Found" />;
 
 NotFoundPage.propTypes = {
   location: PropTypes.object.isRequired,

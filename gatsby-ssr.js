@@ -1,7 +1,19 @@
-/**
- * Implement Gatsby's SSR (Server Side Rendering) APIs in this file.
- *
- * See: https://www.gatsbyjs.org/docs/ssr-apis/
- */
+import React from 'react';
 
- // You can delete this file if you're not using it
+const FallbackThemeScript = () => {
+  const codeToRunOnClient = `
+    (function() {
+      try {
+        var mode = localStorage.getItem('theme');
+        if (mode === 'light') {
+          document.documentElement.classList.add('light-mode');
+        }
+      } catch (e) {}
+    })();
+  `;
+  return <script dangerouslySetInnerHTML={{ __html: codeToRunOnClient }} />;
+};
+
+export const onRenderBody = ({ setPreBodyComponents }) => {
+  setPreBodyComponents([<FallbackThemeScript key="fallback-theme-script" />]);
+};

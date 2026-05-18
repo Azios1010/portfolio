@@ -2,10 +2,8 @@ import React, { useEffect, useRef } from 'react';
 import { useStaticQuery, graphql } from 'gatsby';
 import { GatsbyImage, getImage } from 'gatsby-plugin-image';
 import styled from 'styled-components';
-import sr from '@utils/sr';
-import { srConfig } from '@config';
 import { Icon } from '@components/icons';
-import { usePrefersReducedMotion } from '@hooks';
+import { usePrefersReducedMotion, useIntersectionObserver } from '@hooks';
 
 const StyledProjectsGrid = styled.ul`
   ${({ theme }) => theme.mixins.resetList};
@@ -285,6 +283,11 @@ const StyledProject = styled.li`
         transition: var(--transition);
         background-color: var(--navy);
         mix-blend-mode: screen;
+
+        :root.light-mode & {
+          mix-blend-mode: normal;
+          background-color: transparent;
+        }
       }
     }
 
@@ -292,6 +295,11 @@ const StyledProject = styled.li`
       border-radius: var(--border-radius);
       mix-blend-mode: multiply;
       filter: grayscale(100%) contrast(1) brightness(90%);
+
+      :root.light-mode & {
+        mix-blend-mode: normal;
+        filter: none;
+      }
 
       @media (max-width: 768px) {
         object-fit: cover;
@@ -307,8 +315,11 @@ const Featured = () => {
   const data = useStaticQuery(graphql`
     {
       featured: allMarkdownRemark(
-        filter: { fileAbsolutePath: { regex: "/content/featured/" } }
-        sort: { fields: [frontmatter___date], order: ASC }
+        filter: {
+          fileAbsolutePath: { regex: "/content/featured/" }
+          frontmatter: { showInProjects: { ne: false } }
+        }
+        sort: { frontmatter: { date: ASC } }
       ) {
         edges {
           node {
@@ -332,22 +343,12 @@ const Featured = () => {
   `);
 
   const featuredProjects = data.featured.edges.filter(({ node }) => node);
-  const revealTitle = useRef(null);
-  const revealProjects = useRef([]);
+  const revealTitle = useIntersectionObserver();
   const prefersReducedMotion = usePrefersReducedMotion();
-
-  useEffect(() => {
-    if (prefersReducedMotion) {
-      return;
-    }
-
-    sr.reveal(revealTitle.current, srConfig());
-    revealProjects.current.forEach((ref, i) => sr.reveal(ref, srConfig(i * 100)));
-  }, []);
 
   return (
     <section id="projects">
-      <h2 className="numbered-heading" ref={revealTitle}>
+      <h2 className="numbered-heading reveal-on-scroll" ref={revealTitle}>
         Some Things I’ve Built
       </h2>
 
@@ -359,7 +360,7 @@ const Featured = () => {
             const image = getImage(cover);
 
             return (
-              <StyledProject key={i} ref={el => (revealProjects.current[i] = el)}>
+              <StyledProject key={i} className="reveal-on-scroll" style={{ opacity: 1, transform: 'none' }}>
                 <div className="project-content">
                   <div>
                     <p className="project-overline">Featured Project</p>
