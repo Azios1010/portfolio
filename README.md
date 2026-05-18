@@ -1,87 +1,77 @@
 <div align="center">
-  <img alt="Logo" src="https://raw.githubusercontent.com/bchiang7/v4/main/src/images/logo.png" width="100" />
+  <h2>👨‍💻 Huan Nguyen | Computer Engineer Portfolio</h2>
+  <p>Một trang Portfolio cá nhân tĩnh siêu nhẹ, tối giản và hiệu năng cao.</p>
 </div>
-<h1 align="center">
-  brittanychiang.com - v4
-</h1>
+
 <p align="center">
-  The fourth iteration of <a href="https://brittanychiang.com" target="_blank">brittanychiang.com</a> built with <a href="https://www.gatsbyjs.org/" target="_blank">Gatsby</a> and hosted with <a href="https://www.netlify.com/" target="_blank">Netlify</a>
-</p>
-<p align="center">
-  Previous iterations:
-  <a href="https://github.com/bchiang7/v1" target="_blank">v1</a>,
-  <a href="https://github.com/bchiang7/v2" target="_blank">v2</a>,
-  <a href="https://github.com/bchiang7/bchiang7.github.io" target="_blank">v3</a>
-</p>
-<p align="center">
-  <a href="https://app.netlify.com/sites/brittanychiang/deploys" target="_blank">
-    <img src="https://api.netlify.com/api/v1/badges/1963b488-7b78-48c9-9e2d-6fb5e47ab3af/deploy-status" alt="Netlify Status" />
-  </a>
+  Trang web được phát triển dựa trên thiết kế của template mã nguồn mở nổi tiếng <a href="https://github.com/bchiang7/v4" target="_blank">v4 của Brittany Chiang</a>, tuy nhiên đã được <strong>tối ưu hóa cực đoan (minimalist & highly optimized)</strong> nhằm giảm thiểu dung lượng và đạt hiệu năng tối đa.
 </p>
 
-![demo](https://raw.githubusercontent.com/bchiang7/v4/main/src/images/demo.png)
+---
 
-## 🚨 Forking this repo (please read!)
+## ✨ Điểm nổi bật & Tùy chỉnh (Customizations)
 
-Many people have contacted me asking me if they can use this code for their own website, and the answer to that question is usually **yes, with attribution**.
+Dự án này đã được hiện đại hóa toàn diện với các cập nhật quan trọng sau:
 
-I value keeping my site open source, but as you all know, _**plagiarism is bad**_. It's always disheartening whenever I find that someone has copied my site without giving me credit. I spent a non-trivial amount of effort building and designing this iteration of my website, and I am proud of it! All I ask of you all is to not claim this effort as your own.
+1. **Nâng cấp Tech Stack**:
+   - Chạy trên **Node.js 20+**, **Gatsby 5**, và **React 18** mang lại tốc độ render siêu tốc.
+2. **Anti-Bloatware (Chống phình bộ nhớ)**:
+   - Đã gỡ bỏ hoàn toàn các thư viện hoạt họa nặng nề như `scrollreveal`, `anime.js` và thư viện SEO `react-helmet`.
+   - Chuyển sang sử dụng **Native Browser APIs** (`IntersectionObserver`, CSS Keyframes) và **Gatsby Head API** để tối ưu hóa hiệu năng cực hạn.
+3. **Chế độ Sáng/Tối (Light/Dark Mode Toggle)**:
+   - Tích hợp tính năng đổi màu nền mượt mà sử dụng 100% CSS Variables và React State.
+   - Không dùng thư viện ngoài, trạng thái được ghi nhớ qua `window.localStorage` và xử lý triệt để lỗi giật màn hình (FOUC) khi tải trang bằng Gatsby SSR.
+4. **Cá nhân hóa Logo & Thương hiệu**:
+   - Tự thiết kế và sửa trực tiếp mã SVG của Logo biểu tượng lục giác chữ "H" (Huan) ở cả Navbar và màn hình Loading.
+   - Thay thế toàn bộ dữ liệu mẫu, tích hợp CV trực tiếp qua `/resume.pdf` từ thư mục tĩnh `static/`.
 
-Please also note that I did not build this site with the intention of it being a starter theme, so if you have questions about implementation, please refer to the [Gatsby docs](https://www.gatsbyjs.org/docs/).
+---
 
-### TL;DR
+## 🛠 Cài đặt & Chạy dưới Local
 
-Yes, you can fork this repo. Please give me proper credit by linking back to [brittanychiang.com](https://brittanychiang.com). Thanks!
+### 1. Cài đặt các công cụ
 
-## 🛠 Installation & Set Up
+Sử dụng phiên bản Node.js 20+ và trình quản lý gói `npm` (Tuyệt đối **không** tạo `yarn.lock`):
 
-1. Install the Gatsby CLI
+```sh
+npm install
+```
 
-   ```sh
-   npm install -g gatsby-cli
-   ```
+### 2. Chạy Server Phát triển (Development)
 
-2. Install and use the correct version of Node using [NVM](https://github.com/nvm-sh/nvm)
+Khởi chạy máy chủ ảo để xem giao diện real-time:
 
-   ```sh
-   nvm install
-   ```
+```sh
+npm start
+```
 
-3. Install dependencies
+### 3. Biên dịch bản Production
 
-   ```sh
-   yarn
-   ```
+Tạo mã nguồn HTML/JS tĩnh hoàn chỉnh:
 
-4. Start the development server
+```sh
+npm run build
+```
 
-   ```sh
-   npm start
-   ```
+Xem trước bản build tĩnh:
 
-## 🚀 Building and Running for Production
+```sh
+npm run serve
+```
 
-1. Generate a full static production build
+---
 
-   ```sh
-   npm run build
-   ```
+## 🎨 Bảng màu (Color Scheme)
 
-1. Preview the site as it will appear once deployed
+| Chế độ | Màu nền chính (Navy/Navy-Light) | Màu chữ chính (Slate/White) | Màu nhấn (Accent) |
+| :--- | :--- | :--- | :--- |
+| **Dark Mode** (Mặc định) | `#0a192f` / `#112240` | `#8892b0` / `#ccd6f6` | `#64ffda` (Xanh Neon) |
+| **Light Mode** | `#f8f9fa` / `#e2e8f0` | `#495670` / `#0a192f` | `#0284c7` (Xanh Dương) |
 
-   ```sh
-   npm run serve
-   ```
+---
 
-## 🎨 Color Reference
+## 📜 Ghi công & Bản quyền (Credits)
 
-| Color          | Hex                                                                |
-| -------------- | ------------------------------------------------------------------ |
-| Navy           | ![#0a192f](https://via.placeholder.com/10/0a192f?text=+) `#0a192f` |
-| Light Navy     | ![#112240](https://via.placeholder.com/10/0a192f?text=+) `#112240` |
-| Lightest Navy  | ![#233554](https://via.placeholder.com/10/303C55?text=+) `#233554` |
-| Slate          | ![#8892b0](https://via.placeholder.com/10/8892b0?text=+) `#8892b0` |
-| Light Slate    | ![#a8b2d1](https://via.placeholder.com/10/a8b2d1?text=+) `#a8b2d1` |
-| Lightest Slate | ![#ccd6f6](https://via.placeholder.com/10/ccd6f6?text=+) `#ccd6f6` |
-| White          | ![#e6f1ff](https://via.placeholder.com/10/e6f1ff?text=+) `#e6f1ff` |
-| Green          | ![#64ffda](https://via.placeholder.com/10/64ffda?text=+) `#64ffda` |
+Thiết kế gốc thuộc về **Brittany Chiang** (Cảm ơn cô vì giao diện tuyệt đẹp!). Dự án này được fork và tối ưu hóa cá nhân bởi **Huan Nguyen**. 
+
+> Nếu bạn muốn fork lại kho lưu trữ này, vui lòng để lại liên kết ghi nhận đóng góp (Attribution) tới tác giả thiết kế gốc [brittanychiang.com](https://brittanychiang.com) và người tối ưu hóa dự án [Huan Nguyen](https://github.com/Azios1010).
