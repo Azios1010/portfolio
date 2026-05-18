@@ -1,6 +1,7 @@
 const config = require('./src/config');
 
 module.exports = {
+  pathPrefix: '/portfolio',
   siteMetadata: {
     title: 'Huan Nguyen',
     description: 'Computer Engineer specializing in Edge AI and embedded systems.',
