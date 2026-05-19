@@ -1,7 +1,7 @@
 ---
 date: '2025-12-01'
 title: 'Windows Tiny Shell'
-github: 'https://github.com/Azios1010'
+github: 'https://github.com/Azios1010/Tiny_shell'
 external: ''
 tech:
   - C++
@@ -12,4 +12,4 @@ android: ''
 company: ''
 ---
 
-Custom shell launcher for Windows that manages background processes via command line. Directly invokes Windows APIs to spawn, monitor, and terminate system processes efficiently.
+Lightweight Windows shell written in C++ for launching and managing command-line processes. Uses native Windows APIs to spawn child processes, monitor execution state, and terminate background tasks from a compact CLI interface.

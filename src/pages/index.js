@@ -20,7 +20,7 @@ const IndexPage = ({ location }) => (
   </Layout>
 );
 
-export const Head = () => <SEO title="Huan Nguyen | Computer Engineer" />;
+export const Head = () => <SEO />;
 
 IndexPage.propTypes = {
   location: PropTypes.object.isRequired,

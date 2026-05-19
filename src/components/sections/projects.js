@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState } from 'react';
 import { Link, useStaticQuery, graphql } from 'gatsby';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import styled from 'styled-components';
@@ -200,6 +200,7 @@ const Projects = () => {
   const projectInner = node => {
     const { frontmatter, html } = node;
     const { github, external, title, tech } = frontmatter;
+    const projectUrl = external || github;
 
     return (
       <div className="project-inner">
@@ -228,9 +229,13 @@ const Projects = () => {
           </div>
 
           <h3 className="project-title">
-            <a href={external} target="_blank" rel="noreferrer">
-              {title}
-            </a>
+            {projectUrl ? (
+              <a href={projectUrl} target="_blank" rel="noreferrer">
+                {title}
+              </a>
+            ) : (
+              title
+            )}
           </h3>
 
           <div className="project-description" dangerouslySetInnerHTML={{ __html: html }} />
@@ -251,7 +256,9 @@ const Projects = () => {
 
   return (
     <StyledProjectsSection>
-      <h2 ref={revealTitle} className="reveal-on-scroll">Other Noteworthy Projects</h2>
+      <h2 ref={revealTitle} className="reveal-on-scroll">
+        Other Noteworthy Projects
+      </h2>
 
       <Link className="inline-link archive-link" to="/archive">
         view the archive

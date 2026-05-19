@@ -1,8 +1,7 @@
-import React, { useEffect, useRef } from 'react';
+import React from 'react';
 import { StaticImage } from 'gatsby-plugin-image';
 import styled from 'styled-components';
-import { srConfig } from '@config';
-import { usePrefersReducedMotion, useIntersectionObserver } from '@hooks';
+import { useIntersectionObserver } from '@hooks';
 
 const StyledAboutSection = styled.section`
   max-width: 900px;
@@ -114,9 +113,17 @@ const StyledPic = styled.div`
 
 const About = () => {
   const revealContainer = useIntersectionObserver();
-  const prefersReducedMotion = usePrefersReducedMotion();
 
-  const skills = ['PyTorch', 'TensorFlow / Keras', 'YOLO (Edge CV)', 'scikit-learn', 'OpenCV & NumPy', 'C++ & ESP32', 'Docker', 'MERN Stack'];
+  const skills = [
+    'PyTorch',
+    'TensorFlow / Keras',
+    'YOLO (Edge CV)',
+    'scikit-learn',
+    'OpenCV & NumPy',
+    'C++ & ESP32',
+    'Docker',
+    'MERN Stack',
+  ];
 
   return (
     <StyledAboutSection id="about" ref={revealContainer} className="reveal-on-scroll">
@@ -132,9 +139,9 @@ const About = () => {
 
             <p>
               My research centers on real-time Computer Vision at the edge &mdash; deploying deep
-              learning models (YOLO) on microcontrollers (ESP32) for real-world hardware problems.
-              I also work on NLP for Vietnamese text and cloud infrastructure. Outside of
-              engineering, I study personal finance (ETF/Index funds) and train boxing.
+              learning models on embedded platforms for real-world hardware problems. I also work on
+              Vietnamese NLP, full-stack prototypes, and deployment workflows that turn experiments
+              into usable systems.
             </p>
 
             <p>Here are a few technologies I&apos;ve been working with recently:</p>

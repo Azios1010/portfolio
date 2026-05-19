@@ -1,9 +1,9 @@
-import React, { useEffect, useRef } from 'react';
-import { useStaticQuery, graphql } from 'gatsby';
+import React from 'react';
+import { useStaticQuery, graphql, withPrefix } from 'gatsby';
 import { GatsbyImage, getImage } from 'gatsby-plugin-image';
 import styled from 'styled-components';
 import { Icon } from '@components/icons';
-import { usePrefersReducedMotion, useIntersectionObserver } from '@hooks';
+import { useIntersectionObserver } from '@hooks';
 
 const StyledProjectsGrid = styled.ul`
   ${({ theme }) => theme.mixins.resetList};
@@ -91,6 +91,7 @@ const StyledProject = styled.li`
 
   .project-content {
     position: relative;
+    z-index: 2;
     grid-column: 1 / 7;
     grid-row: 1 / -1;
 
@@ -122,8 +123,11 @@ const StyledProject = styled.li`
   }
 
   .project-title {
+    position: relative;
+    z-index: 2;
     color: var(--lightest-slate);
     font-size: clamp(24px, 5vw, 28px);
+    overflow-wrap: anywhere;
 
     @media (min-width: 768px) {
       margin: 0 0 20px;
@@ -183,7 +187,7 @@ const StyledProject = styled.li`
     display: flex;
     flex-wrap: wrap;
     position: relative;
-    z-index: 2;
+    z-index: 3;
     margin: 25px 0 10px;
     padding: 0;
     list-style: none;
@@ -210,6 +214,7 @@ const StyledProject = styled.li`
     display: flex;
     align-items: center;
     position: relative;
+    z-index: 3;
     margin-top: 10px;
     margin-left: -10px;
     color: var(--lightest-slate);
@@ -244,19 +249,58 @@ const StyledProject = styled.li`
     grid-row: 1 / -1;
     position: relative;
     z-index: 1;
+    border-radius: var(--border-radius);
+    background-color: transparent;
+    transition: var(--transition);
+
+    &:after {
+      content: '';
+      display: block;
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 14px;
+      left: 14px;
+      z-index: 0;
+      border: 2px solid var(--green);
+      border-radius: var(--border-radius);
+      pointer-events: none;
+      transition: var(--transition);
+    }
+
+    &:hover,
+    &:focus-within {
+      transform: translate(-4px, -4px);
+
+      &:after {
+        transform: translate(8px, 8px);
+      }
+    }
 
     @media (max-width: 768px) {
       grid-column: 1 / -1;
       height: 100%;
       opacity: 0.25;
+
+      &:after {
+        display: none;
+      }
     }
 
     a {
+      position: relative;
+      z-index: 1;
       width: 100%;
       height: 100%;
       background-color: var(--green);
       border-radius: var(--border-radius);
       vertical-align: middle;
+      overflow: hidden;
+
+      :root.light-mode & {
+        background-color: transparent;
+        box-shadow: 0 0 0 1px var(--lightest-navy);
+      }
 
       &:hover,
       &:focus {
@@ -267,6 +311,14 @@ const StyledProject = styled.li`
         .img {
           background: transparent;
           filter: none;
+        }
+
+        :root.light-mode & {
+          .img,
+          .img img {
+            opacity: 1 !important;
+            filter: none;
+          }
         }
       }
 
@@ -283,8 +335,10 @@ const StyledProject = styled.li`
         transition: var(--transition);
         background-color: var(--navy);
         mix-blend-mode: screen;
+        opacity: 1;
 
         :root.light-mode & {
+          opacity: 0;
           mix-blend-mode: normal;
           background-color: transparent;
         }
@@ -292,13 +346,22 @@ const StyledProject = styled.li`
     }
 
     .img {
+      position: relative;
+      z-index: 1;
       border-radius: var(--border-radius);
       mix-blend-mode: multiply;
       filter: grayscale(100%) contrast(1) brightness(90%);
 
       :root.light-mode & {
+        opacity: 0.42 !important;
         mix-blend-mode: normal;
-        filter: none;
+        filter: grayscale(100%) contrast(0.9) brightness(0.85);
+
+        img {
+          opacity: 1 !important;
+          mix-blend-mode: normal;
+          filter: inherit;
+        }
       }
 
       @media (max-width: 768px) {
@@ -344,7 +407,6 @@ const Featured = () => {
 
   const featuredProjects = data.featured.edges.filter(({ node }) => node);
   const revealTitle = useIntersectionObserver();
-  const prefersReducedMotion = usePrefersReducedMotion();
 
   return (
     <section id="projects">
@@ -358,15 +420,20 @@ const Featured = () => {
             const { frontmatter, html } = node;
             const { external, title, tech, github, cover, cta } = frontmatter;
             const image = getImage(cover);
+            const projectUrl = external || github;
+            const ctaUrl = cta && (cta.startsWith('http') ? cta : withPrefix(`/${cta}`));
 
             return (
-              <StyledProject key={i} className="reveal-on-scroll" style={{ opacity: 1, transform: 'none' }}>
+              <StyledProject
+                key={i}
+                className="reveal-on-scroll"
+                style={{ opacity: 1, transform: 'none' }}>
                 <div className="project-content">
                   <div>
                     <p className="project-overline">Featured Project</p>
 
                     <h3 className="project-title">
-                      <a href={external}>{title}</a>
+                      {projectUrl ? <a href={projectUrl}>{title}</a> : title}
                     </h3>
 
                     <div
@@ -383,8 +450,8 @@ const Featured = () => {
                     )}
 
                     <div className="project-links">
-                      {cta && (
-                        <a href={cta} aria-label="Course Link" className="cta">
+                      {ctaUrl && (
+                        <a href={ctaUrl} aria-label="Project Details" className="cta">
                           Learn More
                         </a>
                       )}
@@ -403,9 +470,13 @@ const Featured = () => {
                 </div>
 
                 <div className="project-image">
-                  <a href={external ? external : github ? github : '#'}>
+                  {projectUrl ? (
+                    <a href={projectUrl}>
+                      <GatsbyImage image={image} alt={title} className="img" />
+                    </a>
+                  ) : (
                     <GatsbyImage image={image} alt={title} className="img" />
-                  </a>
+                  )}
                 </div>
               </StyledProject>
             );

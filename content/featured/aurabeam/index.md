@@ -2,7 +2,7 @@
 date: '2026-05-01'
 title: 'AuraBeam — Smart Adaptive Headlight System'
 cover: './cover.png'
-github: 'https://github.com/Azios1010'
+github: 'https://github.com/Azios1010/aura_beam'
 external: ''
 tech:
   - C++
@@ -11,7 +11,7 @@ tech:
   - 3-D Kalman Filter
   - Edge AI
 showInProjects: true
-cta: ''
+cta: 'papers/robust-nighttime-vehicle-localization-aura-beam.pdf'
 ---
 
-Real-time adaptive headlight system running fully on embedded hardware. Integrates YOLO object detection with a 3-D Kalman Filter on an ESP32 microcontroller to detect oncoming vehicles and automatically suppress glare. Research paper submitted to MVA conference.
+Embedded adaptive headlight prototype for nighttime driving assistance. Combines vehicle detection, headlight-saturation handling, and actuation-aware 3-D tracking to localize oncoming traffic and reduce glare in real time. Manuscript submitted to MVA and currently under review.

@@ -1,9 +1,13 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link, withPrefix } from 'gatsby';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { navLinks } from '@config';
 import { KEY_CODES } from '@utils';
 import { useOnClickOutside } from '@hooks';
+
+const getHamBeforeTransition = ({ menuOpen }) =>
+  menuOpen ? 'var(--ham-before-active)' : 'var(--ham-before)';
 
 const StyledMenu = styled.div`
   display: none;
@@ -72,8 +76,7 @@ const StyledHamburgerButton = styled.button`
       width: ${props => (props.menuOpen ? `100%` : `120%`)};
       top: ${props => (props.menuOpen ? `0` : `-10px`)};
       opacity: ${props => (props.menuOpen ? 0 : 1)};
-      transition: ${({ menuOpen }) =>
-    menuOpen ? 'var(--ham-before-active)' : 'var(--ham-before)'};
+      transition: ${getHamBeforeTransition};
     }
     &:after {
       width: ${props => (props.menuOpen ? `100%` : `80%`)};
@@ -152,9 +155,14 @@ const StyledSidebar = styled.aside`
     margin: 10% auto 0;
     width: max-content;
   }
+
+  .theme-toggle-wrapper {
+    ${({ theme }) => theme.mixins.flexCenter};
+    margin-top: 10px;
+  }
 `;
 
-const Menu = () => {
+const Menu = ({ themeToggle }) => {
   const [menuOpen, setMenuOpen] = useState(false);
 
   const toggleMenu = () => setMenuOpen(!menuOpen);
@@ -167,7 +175,10 @@ const Menu = () => {
   let lastFocusableEl;
 
   const setFocusables = () => {
-    menuFocusables = [buttonRef.current, ...Array.from(navRef.current.querySelectorAll('a'))];
+    menuFocusables = [
+      buttonRef.current,
+      ...Array.from(navRef.current.querySelectorAll('a, button')),
+    ];
     firstFocusableEl = menuFocusables[0];
     lastFocusableEl = menuFocusables[menuFocusables.length - 1];
   };
@@ -272,11 +283,21 @@ const Menu = () => {
             <a href={withPrefix('/resume.pdf')} className="resume-link">
               Resume
             </a>
+
+            {themeToggle && <div className="theme-toggle-wrapper">{themeToggle}</div>}
           </nav>
         </StyledSidebar>
       </div>
     </StyledMenu>
   );
+};
+
+Menu.propTypes = {
+  themeToggle: PropTypes.node,
+};
+
+Menu.defaultProps = {
+  themeToggle: null,
 };
 
 export default Menu;

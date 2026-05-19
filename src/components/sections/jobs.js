@@ -3,7 +3,7 @@ import { useStaticQuery, graphql } from 'gatsby';
 import { CSSTransition } from 'react-transition-group';
 import styled from 'styled-components';
 import { KEY_CODES } from '@utils';
-import { usePrefersReducedMotion, useIntersectionObserver } from '@hooks';
+import { useIntersectionObserver } from '@hooks';
 
 const StyledJobsSection = styled.section`
   max-width: 700px;
@@ -194,7 +194,6 @@ const Jobs = () => {
   const [tabFocus, setTabFocus] = useState(null);
   const tabs = useRef([]);
   const revealContainer = useIntersectionObserver();
-  const prefersReducedMotion = usePrefersReducedMotion();
 
   const focusTab = () => {
     if (tabs.current[tabFocus]) {

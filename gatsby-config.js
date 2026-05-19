@@ -4,9 +4,10 @@ module.exports = {
   pathPrefix: '/portfolio',
   siteMetadata: {
     title: 'Huan Nguyen',
-    description: 'Computer Engineer specializing in Edge AI and embedded systems.',
-    siteUrl: 'https://github.com/Azios1010', // Changed from example.com
-    image: '/og.png', // Needs an actual og.png in static folder
+    description:
+      'Computer Engineering student focused on Edge AI, embedded computer vision, and applied machine learning systems.',
+    siteUrl: 'https://azios1010.github.io',
+    image: '/og.png',
     twitterUsername: '',
   },
   plugins: [

@@ -1,46 +1,40 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useLocation } from '@reach/router';
-import { useStaticQuery, graphql } from 'gatsby';
+import { useStaticQuery, graphql, withPrefix } from 'gatsby';
 
 const Head = ({ title, description, image }) => {
   const { pathname } = useLocation();
 
-  const { site } = useStaticQuery(
-    graphql`
-      query {
-        site {
-          siteMetadata {
-            defaultTitle: title
-            defaultDescription: description
-            siteUrl
-            defaultImage: image
-            twitterUsername
-          }
+  const { site } = useStaticQuery(graphql`
+    query {
+      site {
+        siteMetadata {
+          defaultTitle: title
+          defaultDescription: description
+          siteUrl
+          defaultImage: image
+          twitterUsername
         }
       }
-    `,
-  );
+    }
+  `);
 
-  const {
-    defaultTitle,
-    defaultDescription,
-    siteUrl,
-    defaultImage,
-    twitterUsername,
-  } = site.siteMetadata;
+  const { defaultTitle, defaultDescription, siteUrl, defaultImage, twitterUsername } =
+    site.siteMetadata;
 
   const seo = {
     title: title || defaultTitle,
     description: description || defaultDescription,
-    image: `${siteUrl}${image || defaultImage}`,
-    url: `${siteUrl}${pathname}`,
+    image: `${siteUrl}${withPrefix(image || defaultImage)}`,
+    url: `${siteUrl}${withPrefix(pathname)}`,
   };
+  const pageTitle = title ? `${seo.title} | ${defaultTitle}` : defaultTitle;
 
   return (
     <>
       <html lang="en" />
-      <title>{seo.title} | {defaultTitle}</title>
+      <title>{pageTitle}</title>
       <meta name="description" content={seo.description} />
       <meta name="image" content={seo.image} />
 

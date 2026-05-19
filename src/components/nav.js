@@ -9,6 +9,30 @@ import { useScrollDirection, usePrefersReducedMotion } from '@hooks';
 import { Menu } from '@components';
 import { IconLogo, IconHex } from '@components/icons';
 
+const scrollUpStyles = ({ scrollDirection, scrolledToTop }) =>
+  scrollDirection === 'up' &&
+  !scrolledToTop &&
+  css`
+    height: var(--nav-scroll-height);
+    transform: translateY(0px);
+    background-color: var(--nav-bg);
+    box-shadow: 0 10px 30px -10px var(--navy-shadow);
+  `;
+
+const scrollDownStyles = ({ scrollDirection, scrolledToTop }) =>
+  scrollDirection === 'down' &&
+  !scrolledToTop &&
+  css`
+    height: var(--nav-scroll-height);
+    transform: translateY(calc(var(--nav-scroll-height) * -1));
+    box-shadow: 0 10px 30px -10px var(--navy-shadow);
+  `;
+
+const getToggleThumbShadow = ({ $isLightMode }) =>
+  $isLightMode
+    ? 'inset -2px -3px 4px rgba(2, 12, 27, 0.08), 0 0 0 2px rgba(230, 241, 255, 0.22)'
+    : 'inset -7px -3px 0 -2px #fff7a8, 0 0 0 2px rgba(255, 230, 0, 0.18)';
+
 const StyledHeader = styled.header`
   ${({ theme }) => theme.mixins.flexBetween};
   position: fixed;
@@ -32,24 +56,8 @@ const StyledHeader = styled.header`
   }
 
   @media (prefers-reduced-motion: no-preference) {
-    ${props =>
-    props.scrollDirection === 'up' &&
-      !props.scrolledToTop &&
-      css`
-        height: var(--nav-scroll-height);
-        transform: translateY(0px);
-        background-color: var(--nav-bg);
-        box-shadow: 0 10px 30px -10px var(--navy-shadow);
-      `};
-
-    ${props =>
-    props.scrollDirection === 'down' &&
-      !props.scrolledToTop &&
-      css`
-        height: var(--nav-scroll-height);
-        transform: translateY(calc(var(--nav-scroll-height) * -1));
-        box-shadow: 0 10px 30px -10px var(--navy-shadow);
-      `};
+    ${scrollUpStyles};
+    ${scrollDownStyles};
   }
 `;
 
@@ -152,18 +160,69 @@ const StyledLinks = styled.div`
 
 const StyledThemeToggle = styled.button`
   ${({ theme }) => theme.mixins.flexCenter};
-  padding: 10px;
+  position: relative;
+  width: 64px;
+  height: 34px;
+  padding: 0;
   margin-left: 15px;
-  color: var(--green);
-  font-size: var(--fz-xl);
-  background: transparent;
-  border: none;
+  border: 3px solid var(--white);
+  border-radius: 999px;
+  background: ${({ $isLightMode }) => ($isLightMode ? 'var(--light-navy)' : '#06131a')};
+  box-shadow: 0 6px 18px -8px var(--navy-shadow);
   transition: var(--transition);
+  overflow: hidden;
+
+  @media (max-width: 768px) {
+    margin: 22px auto 0;
+  }
 
   &:hover,
   &:focus {
-    background: var(--green-tint);
-    border-radius: var(--border-radius);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 22px -10px var(--navy-shadow);
+  }
+
+  .toggle-thumb {
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: ${({ $isLightMode }) => ($isLightMode ? 'var(--white)' : '#ffe600')};
+    box-shadow: ${getToggleThumbShadow};
+    transform: translateX(${({ $isLightMode }) => ($isLightMode ? '0' : '30px')});
+    transition:
+      transform 0.25s var(--easing),
+      background-color 0.25s var(--easing),
+      box-shadow 0.25s var(--easing);
+  }
+
+  .toggle-star {
+    position: absolute;
+    width: 3px;
+    height: 3px;
+    border-radius: 50%;
+    background: #ffe600;
+    opacity: ${({ $isLightMode }) => ($isLightMode ? 0.15 : 1)};
+    transition: opacity 0.25s var(--easing);
+  }
+
+  .toggle-star.one {
+    top: 10px;
+    right: 27px;
+  }
+
+  .toggle-star.two {
+    top: 16px;
+    right: 19px;
+  }
+
+  .toggle-star.three {
+    top: 20px;
+    right: 33px;
+    width: 5px;
+    height: 5px;
   }
 `;
 
@@ -244,14 +303,25 @@ const Nav = ({ isHome }) => {
   );
 
   const ResumeLink = (
-    <a className="resume-button" href={withPrefix('/resume.pdf')} target="_blank" rel="noopener noreferrer">
+    <a
+      className="resume-button"
+      href={withPrefix('/resume.pdf')}
+      target="_blank"
+      rel="noopener noreferrer">
       Resume
     </a>
   );
 
-  const ThemeToggleButton = (
-    <StyledThemeToggle onClick={toggleTheme} aria-label="Toggle Theme">
-      {isLightMode ? '🌙' : '☀️'}
+  const renderThemeToggle = () => (
+    <StyledThemeToggle
+      onClick={toggleTheme}
+      aria-label={isLightMode ? 'Switch to dark mode' : 'Switch to light mode'}
+      aria-pressed={isLightMode}
+      $isLightMode={isLightMode}>
+      <span className="toggle-thumb" aria-hidden="true" />
+      <span className="toggle-star one" aria-hidden="true" />
+      <span className="toggle-star two" aria-hidden="true" />
+      <span className="toggle-star three" aria-hidden="true" />
     </StyledThemeToggle>
   );
 
@@ -273,11 +343,11 @@ const Nav = ({ isHome }) => {
               </ol>
               <div style={{ display: 'flex', alignItems: 'center' }}>
                 {ResumeLink}
-                {ThemeToggleButton}
+                {renderThemeToggle()}
               </div>
             </StyledLinks>
 
-            <Menu />
+            <Menu themeToggle={renderThemeToggle()} />
           </>
         ) : (
           <>
@@ -307,9 +377,14 @@ const Nav = ({ isHome }) => {
               <TransitionGroup component={null}>
                 {isMounted && (
                   <CSSTransition classNames={fadeDownClass} timeout={timeout}>
-                    <div style={{ transitionDelay: `${isHome ? navLinks.length * 100 : 0}ms`, display: 'flex', alignItems: 'center' }}>
+                    <div
+                      style={{
+                        transitionDelay: `${isHome ? navLinks.length * 100 : 0}ms`,
+                        display: 'flex',
+                        alignItems: 'center',
+                      }}>
                       {ResumeLink}
-                      {ThemeToggleButton}
+                      {renderThemeToggle()}
                     </div>
                   </CSSTransition>
                 )}
@@ -319,7 +394,7 @@ const Nav = ({ isHome }) => {
             <TransitionGroup component={null}>
               {isMounted && (
                 <CSSTransition classNames={fadeClass} timeout={timeout}>
-                  <Menu />
+                  <Menu themeToggle={renderThemeToggle()} />
                 </CSSTransition>
               )}
             </TransitionGroup>

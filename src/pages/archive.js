@@ -1,10 +1,10 @@
-import React, { useRef, useEffect } from 'react';
+import React from 'react';
 import { graphql } from 'gatsby';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import { Layout, Head as SEO } from '@components';
 import { Icon } from '@components/icons';
-import { usePrefersReducedMotion, useIntersectionObserver } from '@hooks';
+import { useIntersectionObserver } from '@hooks';
 
 const StyledTableContainer = styled.div`
   margin: 100px -20px;
@@ -129,7 +129,6 @@ const StyledTableContainer = styled.div`
 const ArchivePage = ({ location, data }) => {
   const projects = data.allMarkdownRemark.edges;
   const revealTitle = useIntersectionObserver();
-  const prefersReducedMotion = usePrefersReducedMotion();
 
   return (
     <Layout location={location}>
@@ -153,16 +152,8 @@ const ArchivePage = ({ location, data }) => {
             <tbody>
               {projects.length > 0 &&
                 projects.map(({ node }, i) => {
-                  const {
-                    date,
-                    github,
-                    external,
-                    ios,
-                    android,
-                    title,
-                    tech,
-                    company,
-                  } = node.frontmatter;
+                  const { date, github, external, ios, android, title, tech, company } =
+                    node.frontmatter;
                   return (
                     <tr key={i}>
                       <td className="overline year">{`${new Date(date).getFullYear()}`}</td>
@@ -230,7 +221,10 @@ export default ArchivePage;
 export const pageQuery = graphql`
   {
     allMarkdownRemark(
-      filter: { fileAbsolutePath: { regex: "/content/projects/" } }
+      filter: {
+        fileAbsolutePath: { regex: "/content/projects/" }
+        frontmatter: { showInProjects: { ne: false } }
+      }
       sort: { frontmatter: { date: DESC } }
     ) {
       edges {

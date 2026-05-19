@@ -66,8 +66,8 @@ const Hero = () => {
     <>
       <p>
         I&apos;m a Computer Engineering student at HUST, specializing in Edge Computer Vision and
-        embedded AI systems. I build things that run fast on constrained hardware &mdash; from
-        real-time object detection on microcontrollers to NLP pipelines for Vietnamese text.
+        embedded AI systems. I build real-time perception pipelines for constrained hardware, from
+        vehicle localization on embedded platforms to Vietnamese NLP systems for applied research.
       </p>
     </>
   );

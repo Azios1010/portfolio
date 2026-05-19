@@ -1,7 +1,7 @@
-import React, { useEffect, useRef } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import { email } from '@config';
-import { usePrefersReducedMotion, useIntersectionObserver } from '@hooks';
+import { useIntersectionObserver } from '@hooks';
 
 const StyledContactSection = styled.section`
   max-width: 600px;
@@ -42,7 +42,6 @@ const StyledContactSection = styled.section`
 
 const Contact = () => {
   const revealContainer = useIntersectionObserver();
-  const prefersReducedMotion = usePrefersReducedMotion();
 
   return (
     <StyledContactSection id="contact" ref={revealContainer} className="reveal-on-scroll">
@@ -51,8 +50,9 @@ const Contact = () => {
       <h2 className="title">Get In Touch</h2>
 
       <p>
-        Although I’m not currently looking for any new opportunities, my inbox is always open.
-        Whether you have a question or just want to say hi, I’ll try my best to get back to you!
+        I’m open to research collaborations, internships, and engineering projects around Edge AI,
+        embedded systems, and computer vision. If you’re working on something relevant, feel free to
+        reach out.
       </p>
 
       <a className="email-link" href={`mailto:${email}`}>
