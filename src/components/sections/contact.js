@@ -50,9 +50,10 @@ const Contact = () => {
       <h2 className="title">Get In Touch</h2>
 
       <p>
-        I’m open to research collaborations, internships, and engineering projects around Edge AI,
-        embedded systems, and computer vision. If you’re working on something relevant, feel free to
-        reach out.
+        I&apos;m open to research collaborations, internships, and engineering opportunities in
+        computer vision, intelligent transportation, AI engineering, Agentic AI, object tracking,
+        and hardware-in-the-loop systems. If you&apos;re working on a related project or interested in
+        collaborating, feel free to get in touch.
       </p>
 
       <a className="email-link" href={`mailto:${email}`}>

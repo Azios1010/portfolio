@@ -29,10 +29,16 @@ const StyledHeroSection = styled.section`
     }
   }
 
+  h2,
   h3 {
     margin-top: 5px;
     color: var(--slate);
     line-height: 0.9;
+  }
+
+  h2.big-heading {
+    font-size: clamp(32px, 5vw, 56px);
+    line-height: 1.05;
   }
 
   p {
@@ -59,25 +65,30 @@ const Hero = () => {
     return () => clearTimeout(timeout);
   }, []);
 
-  const one = <h1>Hi, my name is</h1>;
-  const two = <h2 className="big-heading">Huan Nguyen.</h2>;
-  const three = <h3 className="big-heading">I build AI at the edge.</h3>;
-  const four = (
+  const one = <h1>Hi, I&apos;m Huan Nguyen.</h1>;
+  const two = (
+    <h2 className="big-heading">
+      I build practical AI systems, with a primary focus on computer vision for intelligent
+      transportation.
+    </h2>
+  );
+  const three = (
     <>
       <p>
-        I&apos;m a Computer Engineering student at HUST, specializing in Edge Computer Vision and
-        embedded AI systems. I build real-time perception pipelines for constrained hardware, from
-        vehicle localization on embedded platforms to Vietnamese NLP systems for applied research.
+        I&apos;m a Computer Engineering student at HUST working on object detection, depth estimation,
+        model-based tracking, and actuation-aware evaluation. Beyond computer vision, I also explore
+        Vietnamese NLP and retrieval-augmented generation, with an emphasis on measurable
+        performance, failure analysis, and real-world deployment constraints.
       </p>
     </>
   );
-  const five = (
+  const four = (
     <a className="email-link" href="mailto:huan.elenoa@gmail.com">
       Get In Touch
     </a>
   );
 
-  const items = [one, two, three, four, five];
+  const items = [one, two, three, four];
 
   return (
     <StyledHeroSection>

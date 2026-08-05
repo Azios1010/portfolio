@@ -1,17 +1,17 @@
 # Nguyễn Văn Huấn (Azios Elenoa)
-**Computer Engineer | Edge AI & Embedded Systems**
+**Computer Engineer | Computer Vision & Intelligent Transportation Systems**
 
 ---
 
 ## About
-Sinh viên Kỹ thuật Máy tính tại HUST, tập trung vào Edge Computer Vision và AI nhúng. Làm việc độc lập hiệu quả, tự học sâu, đang chuẩn bị cho chương trình trao đổi học thuật quốc tế. Ngoài giờ: nghiên cứu tài chính cá nhân (ETF/Index funds) và tập gym, boxing.
+Sinh viên Kỹ thuật Máy tính tại HUST, tập trung vào Computer Vision, theo dõi dựa trên mô hình và các hệ thống perception-to-control cho giao thông thông minh. Quan tâm đến đánh giá định lượng, các trường hợp thất bại và ràng buộc triển khai thực tế. Ngoài giờ: nghiên cứu tài chính cá nhân (ETF/Index funds) và tập gym, boxing.
 
 ---
 
 ## Tech Stack
-- **AI/ML:** Edge CV (YOLO), NLP (PhoBERT, SVM), Sentiment Analysis
-- **ML/DL Frameworks:** PyTorch, TensorFlow/Keras, scikit-learn, OpenCV, NumPy, Pandas
-- **Systems & Hardware:** C++, ESP32, Arduino, Windows APIs
+- **AI/ML:** Computer Vision (YOLO11n), 3-D Kalman Filtering, NLP (PhoBERT, SVM)
+- **ML/DL Frameworks:** PyTorch, scikit-learn, OpenCV, NumPy, Pandas
+- **Systems & Hardware:** C/C++, Arduino-compatible HIL, Windows APIs
 - **Cloud & Infra:** Docker, WSL, VMs, SDN
 - **Web:** MERN Stack, Vercel, Render
 
@@ -21,25 +21,26 @@ Sinh viên Kỹ thuật Máy tính tại HUST, tập trung vào Edge Computer Vi
 
 ### Research Team Lead – AuraBeam
 **HUST Research Group** | *04/2026 – 05/2026*
-- Dẫn dắt nhóm từ ý tưởng đến hoàn thiện phần cứng cho hệ thống đèn pha chống chói thông minh.
-- Tích hợp YOLO + 3-D Kalman Filter lên ESP32 để xử lý thời gian thực tại biên.
-- Tác giả chính bài báo khoa học — đang trong quá trình review tại MVA.
+- Dẫn dắt nhóm xây dựng và đánh giá prototype điều khiển đèn pha thích ứng.
+- Phát triển pipeline kết hợp YOLO11n, temporal depth prior, adaptive six-state 3-D Kalman Filter và LED-grid hardware-in-the-loop.
+- Đánh giá glare suppression, false darkening và độ trễ CPU; control-target filtering cải thiện D7 M-GSSR từ 26.10% lên 44.49%.
+- Tác giả đầu bài báo khoa học đang được review tại International Journal of Intelligent Transportation Systems Research.
 
 ---
 
 ## Projects
 
 ### AuraBeam – Smart Adaptive Headlight System
-`C++` `ESP32` `YOLO` `3-D Kalman Filter`
-Hệ thống đèn pha thích ứng tự động chạy trên phần cứng. Phần cứng hoàn thiện, hệ thống ổn định. Bài báo gửi MVA đang review.
+`Python` `YOLO11n` `3-D Kalman Filter` `LED-grid HIL`
+Prototype nghiên cứu actuation-aware cho adaptive driving beam control. Hệ thống kết hợp vehicle detection, temporal depth prior, tracking 3-D và mô phỏng lưới LED. Kết quả chỉ ra cả cải thiện về glare suppression lẫn bottleneck độ trễ cần giải quyết trước khi triển khai real-time.
 
 ### Media Crisis Sentiment Analysis
 `Python` `PhoBERT` `SVM`
-Pipeline NLP phân tích cảm xúc tiếng Việt phục vụ đo lường khủng hoảng truyền thông. F1-score **0.83**.
+Pipeline NLP phân tích cảm xúc trên khoảng 20.000 câu tiếng Việt, chia train/validation/test theo tỷ lệ 80/10/10. Mô hình đạt F1-score **0.83**.
 
 ### Windows Tiny Shell
-`C++` `Windows APIs`
-Custom shell launcher quản lý tiến trình nền trên Windows qua command line.
+`C` `Windows APIs` `Process Management`
+Dự án command-line shell phát triển từ fork có ghi nguồn rõ ràng, tập trung vào khởi chạy tiến trình, built-in commands, theo dõi trạng thái thực thi và quản lý background tasks trên Windows.
 
 ### Dating Platform
 `MongoDB` `Express` `React` `Node.js`

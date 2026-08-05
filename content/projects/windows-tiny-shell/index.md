@@ -4,12 +4,14 @@ title: 'Windows Tiny Shell'
 github: 'https://github.com/Azios1010/Tiny_shell'
 external: ''
 tech:
-  - C++
+  - C
   - Windows APIs
+  - Process Management
+  - CLI
 showInProjects: true
 ios: ''
 android: ''
 company: ''
 ---
 
-Lightweight Windows shell written in C++ for launching and managing command-line processes. Uses native Windows APIs to spawn child processes, monitor execution state, and terminate background tasks from a compact CLI interface.
+Windows command-line shell project written primarily in C and developed from a forked codebase. Focuses on process launching, built-in command handling, execution-state monitoring, and background-task termination through native Windows APIs, with clear attribution to the upstream repository.

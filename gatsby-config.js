@@ -5,7 +5,7 @@ module.exports = {
   siteMetadata: {
     title: 'Huan Nguyen',
     description:
-      'Computer Engineering student focused on Edge AI, embedded computer vision, and applied machine learning systems.',
+      'Computer Engineering student building computer vision and perception-to-control systems for intelligent transportation.',
     siteUrl: 'https://azios1010.github.io',
     image: '/og.png',
     twitterUsername: '',
@@ -52,7 +52,6 @@ module.exports = {
         icon: 'src/images/logo.png',
       },
     },
-    `gatsby-plugin-offline`,
     {
       resolve: `gatsby-source-filesystem`,
       options: {

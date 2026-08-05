@@ -22,12 +22,15 @@ const Head = ({ title, description, image }) => {
 
   const { defaultTitle, defaultDescription, siteUrl, defaultImage, twitterUsername } =
     site.siteMetadata;
+  const pathPrefix = withPrefix('/').replace(/\/$/, '');
+  const canonicalPath =
+    pathPrefix && pathname.startsWith(`${pathPrefix}/`) ? pathname : withPrefix(pathname);
 
   const seo = {
     title: title || defaultTitle,
     description: description || defaultDescription,
     image: `${siteUrl}${withPrefix(image || defaultImage)}`,
-    url: `${siteUrl}${withPrefix(pathname)}`,
+    url: `${siteUrl}${canonicalPath}`,
   };
   const pageTitle = title ? `${seo.title} | ${defaultTitle}` : defaultTitle;
 

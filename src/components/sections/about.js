@@ -1,5 +1,5 @@
 import React from 'react';
-import { StaticImage } from 'gatsby-plugin-image';
+import { withPrefix } from 'gatsby';
 import styled from 'styled-components';
 import { useIntersectionObserver } from '@hooks';
 
@@ -78,6 +78,9 @@ const StyledPic = styled.div`
 
     .img {
       position: relative;
+      display: block;
+      width: 100%;
+      height: auto;
       border-radius: var(--border-radius);
       mix-blend-mode: multiply;
       filter: grayscale(100%) contrast(1);
@@ -115,14 +118,15 @@ const About = () => {
   const revealContainer = useIntersectionObserver();
 
   const skills = [
+    'Python',
     'PyTorch',
-    'TensorFlow / Keras',
-    'YOLO (Edge CV)',
-    'scikit-learn',
+    'YOLO11n',
     'OpenCV & NumPy',
-    'C++ & ESP32',
+    'scikit-learn',
+    '3-D Kalman Filtering',
+    'C / C++ & Windows APIs',
+    'Arduino / HIL',
     'Docker',
-    'MERN Stack',
   ];
 
   return (
@@ -133,15 +137,22 @@ const About = () => {
         <StyledText>
           <div>
             <p>
-              Hello! I&apos;m Huan, a Computer Engineering student at HUST (Hanoi University of
-              Science and Technology), focused on Edge AI and embedded systems.
+              Hello! I&apos;m Huan, a Computer Engineering student at Hanoi University of Science and
+              Technology (HUST), with a primary research focus on computer vision and intelligent
+              systems.
             </p>
 
             <p>
-              My research centers on real-time Computer Vision at the edge &mdash; deploying deep
-              learning models on embedded platforms for real-world hardware problems. I also work on
-              Vietnamese NLP, full-stack prototypes, and deployment workflows that turn experiments
-              into usable systems.
+              My work explores perception-driven applications, including object detection, depth
+              estimation, multi-object tracking, and hardware-integrated evaluation. Alongside
+              computer vision research, I also have hands-on experience in Vietnamese NLP and
+              retrieval-augmented generation, from developing sentiment analysis models to building
+              modular RAG pipelines.
+            </p>
+
+            <p>
+              I am particularly interested in developing AI systems that are experimentally
+              validated, aware of real-world constraints, and practical for deployment.
             </p>
 
             <p>Here are a few technologies I&apos;ve been working with recently:</p>
@@ -154,13 +165,10 @@ const About = () => {
 
         <StyledPic>
           <div className="wrapper">
-            <StaticImage
+            <img
               className="img"
-              src="../../images/noir_avt.jpg"
-              width={500}
-              quality={95}
-              formats={['AUTO', 'WEBP', 'AVIF']}
-              alt="Headshot"
+              src={withPrefix('/avt_profile_nguyenvanhuan.png')}
+              alt="Huan Nguyen portrait"
             />
           </div>
         </StyledPic>
