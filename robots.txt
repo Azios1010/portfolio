@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+Sitemap: https://azios1010.github.io/portfolio/sitemap-index.xml
+Host: https://azios1010.github.io
